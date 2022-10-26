@@ -1,7 +1,7 @@
 ## QEMU Bash Completion
 
 This is bash completion functions for `qemu-system` , `qemu-user` ,
-`qemu-utils` commands.
+`qemu-utils` commands. ( It may also work with qemu 7.1 )
 
 ```sh
 bash$ hostnamectl
