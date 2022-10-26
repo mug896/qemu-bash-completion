@@ -337,6 +337,7 @@ _qemu_system()
             fi ;;
 
         -fsdev|-virtfs|-display)
+            [[ $COMP_WORDBREAKS == *"."* ]] && COMP_WORDBREAKS=${COMP_WORDBREAKS//./}
             if [[ $PREV_O == $PREO ]]; then
                 if [[ $PREO == -display ]]; then
                     WORDS=$( $CMD -display help 2> /dev/null | sed -En '1d; s/^([^ ]+).*/\1/p' )
