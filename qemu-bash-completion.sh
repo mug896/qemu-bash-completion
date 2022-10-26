@@ -257,6 +257,7 @@ _qemu_system()
             if [[ $PREV_O == -audiodev ]]; then
                 _qemu_set_optv "-audiodev" "@"
             elif [[ -n $CUR_O ]]; then
+                [[ $COMP_WORDBREAKS == *"."* ]] && COMP_WORDBREAKS=${COMP_WORDBREAKS//./}
                 local c_opts=$'id=\ntimer-period=\nin|out.mixing-engine=
                 in|out.fixed-settings=\nin|out.frequency=\nin|out.channels=
                 in|out.format=\nin|out.voices=\nin|out.buffer-length='
@@ -314,6 +315,7 @@ _qemu_system()
                         pass-discard-snapshot=\npass-discard-other=\noverlap-check=' ;;
                 esac
             elif [[ -n $CUR_O ]]; then
+                [[ $COMP_WORDBREAKS == *"."* ]] && COMP_WORDBREAKS=${COMP_WORDBREAKS//./}
                 case "$PREV" in
                     driver)
                         WORDS=$'file\nraw\nqcow2' ;;
