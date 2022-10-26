@@ -297,6 +297,7 @@ _qemu_system()
             fi ;;
 
         -blockdev)
+            [[ $COMP_WORDBREAKS == *"."* ]] && COMP_WORDBREAKS=${COMP_WORDBREAKS//./}
             if [[ $PREV_O == -blockdev ]]; then
                 WORDS=$'file\nraw\nqcow2\ndriver='
             elif [[ "," == @($CUR_O|$PREV_O) ]]; then
@@ -315,7 +316,6 @@ _qemu_system()
                         pass-discard-snapshot=\npass-discard-other=\noverlap-check=' ;;
                 esac
             elif [[ -n $CUR_O ]]; then
-                [[ $COMP_WORDBREAKS == *"."* ]] && COMP_WORDBREAKS=${COMP_WORDBREAKS//./}
                 case "$PREV" in
                     driver)
                         WORDS=$'file\nraw\nqcow2' ;;
