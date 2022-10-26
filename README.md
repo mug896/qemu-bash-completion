@@ -5,12 +5,12 @@ This is bash completion functions for `qemu-system` , `qemu-user` ,
 
 ```sh
 bash$ hostnamectl
-Operating System: Ubuntu 22.04.1 LTS
-          Kernel: Linux 5.15.0-43-generic
+Operating System: Ubuntu 22.10                    
+          Kernel: Linux 5.19.0-23-generic
     Architecture: x86-64
 
-bash$ qemu-system-x86_64 --version
-QEMU emulator version 6.2.0 (Debian 1:6.2+dfsg-2ubuntu6.4)
+bash$ qemu-system-x86_64 -version 
+QEMU emulator version 7.0.0 (Debian 1:7.0+dfsg-7ubuntu2)
 ```
 
 ## Installation
