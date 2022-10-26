@@ -193,9 +193,9 @@ _qemu_system()
             if [[ $PREV_O == $PREO ]]; then
                 case $PREO in
                     -nic)
-                        WORDS=$'user\ntap\nbridge\nsocket\nl2tpv3\nvhost-user\nnone' ;;
+                        WORDS=$'tap\nbridge\nuser\nl2tpv3\nvde\nnetmap\nvhost-user\nsocket\nnone' ;;
                     -net)
-                        WORDS=$'nic\nuser\ntap\nbridge\nsocket\nl2tpv3\nvde\nnone\ndump' ;;
+                        WORDS=$'user\ntap\nbridge\nsocket\nl2tpv3\nvde' ;;
                 esac
             elif [[ -n $CUR_O ]]; then
                 if [[ $COMP_LINE2 =~ .*" "$PREO" "+([[:alnum:]_.-]+)"," ]]; then
