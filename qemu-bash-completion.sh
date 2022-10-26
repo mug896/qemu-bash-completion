@@ -160,7 +160,7 @@ _qemu_system()
         -accel)
             local accel_h=$( $CMD -accel help | sed -En '1d; s/^([^ ]+).*/\1/; p' )
             if [[ $PREV_O == -accel ]]; then
-                WORDS+=$'accel=\n'$accel_h
+                WORDS=$'accel=\n'$accel_h
             elif [[ "," == @($CUR_O|$PREV_O) ]]; then
                 _qemu_set_optv "-accel"
             elif [[ -n $CUR_O ]]; then
@@ -439,7 +439,7 @@ _qemu_system()
 
         -sandbox)
             if [[ $PREV_O == -sandbox ]]; then
-                WORDS+=$'on\noff'
+                WORDS=$'on\noff'
             elif [[ "," == @($CUR_O|$PREV_O) ]]; then
                 _qemu_set_optv "-sandbox"
             elif [[ -n $CUR_O ]]; then
