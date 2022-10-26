@@ -277,7 +277,7 @@ _qemu_system()
         -soundhw|-watchdog|-plugin)
             if [[ $PREV_O == -soundhw ]]; then
                 WORDS=$( $CMD $PREO help | sed -En '1d; /^$/Q; s/^([^ ]+).*/\1/; p' ) 
-                WORDS+="\nall"
+                WORDS+=$'\nall'
             elif [[ $PREV_O == -watchdog ]]; then
                 WORDS=$( $CMD -device help | sed -En '/^Watchdog devices:/,/^$/{ //d; s/[^"]*"([^"]+)".*/\1/; p}' )
             elif [[ $PREV_O == -plugin ]]; then
