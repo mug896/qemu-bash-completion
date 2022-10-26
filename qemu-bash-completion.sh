@@ -202,7 +202,7 @@ _qemu_system()
                     local opt=${BASH_REMATCH[1]}
                     if [[ "=" == @($CUR_O|$PREV_O) ]]; then
                         if [[ $PREV == model ]]; then
-                            WORDS=$( $CMD -nic model=help | tail -n +2 )
+                            WORDS=$( $CMD -net nic,model=help | tail -n +2 )
                         else
                             _qemu_set_optv "-netdev $opt" "$PREV"
                         fi
