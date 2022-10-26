@@ -170,12 +170,11 @@ _qemu_system()
                 esac
             fi ;;
 
-        -numa|-netdev|-chardev|-tpmdev)
+        -numa|-chardev|-tpmdev)
             if [[ $PREV_O == $PREO ]]; then
                 case $PREO in
-                    -numa|-netdev|-tpmdev)
-                        _qemu_set_optv "$PREO" "@"
-                        [[ $PREO == -netdev ]] && WORDS+=$'\nvde' ;;
+                    -numa|-tpmdev)
+                        _qemu_set_optv "$PREO" "@" ;;
                     -chardev)
                         WORDS=$( $CMD -chardev help | tail -n +2 ) ;;
                 esac
@@ -186,19 +185,16 @@ _qemu_system()
                         _qemu_set_optv "$PREO $opt" "$PREV"
                     else
                         _qemu_set_optv "$PREO $opt"
-                        [[ $opt == vde ]] && WORDS+=$'id=\nsock=\nport=\ngroup=\nmode='
                     fi
                 fi
             fi ;;
 
-        -nic|-net)
+        -netdev|-net|-nic)
             if [[ $PREV_O == $PREO ]]; then
-                case $PREO in
-                    -nic)
-                        WORDS=$'tap\nbridge\nuser\nl2tpv3\nvde\nnetmap\nvhost-user\nsocket\nnone' ;;
-                    -net)
-                        WORDS=$'user\ntap\nbridge\nsocket\nl2tpv3\nvde' ;;
-                esac
+                _qemu_set_optv -netdev "@"
+                WORDS+=$'\nvde'
+                [[ $PREO == -nic ]] && WORDS+=$'\nnetmap\nnone'
+                [[ $PREO == -net ]] && WORDS+=$'\nnic'
             elif [[ -n $CUR_O ]]; then
                 if [[ $COMP_LINE2 =~ .*" "$PREO" "+([[:alnum:]_.-]+)"," ]]; then
                     local opt=${BASH_REMATCH[1]}
@@ -209,11 +205,13 @@ _qemu_system()
                             _qemu_set_optv "-netdev $opt" "$PREV"
                         fi
                     else
-                        if [[ $PREO == -net && $opt == nic ]]; then
+                        if [[ $opt == vde ]]; then
+                            WORDS=$'id=\nsock=\nport=\ngroup=\nmode='
+                        elif [[ $PREO == -net && $opt == nic ]]; then
                             WORDS=$'netdev=\nmacaddr=\nmodel=\nname=\naddr=\nvectors='
                         else
                             _qemu_set_optv "-netdev $opt"
-                            [[ $PREO == -nic ]] && WORDS+=$'\nmac=\nmodel='
+                            [[ $PREO == -nic ]] && WORDS+=$'\nmodel=\nmac='
                         fi
                     fi
                 fi
