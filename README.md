@@ -1,6 +1,6 @@
 ## QEMU Bash Completion
 
-This is bash completion functions for `qemu-system-*` , `qemu-[arm, ppc, riscv ...]` ,
+This is bash completion functions for `qemu-system-*` , `qemu-user` ,
 `qemu-[io, nbd, img]` commands.
 
 ```sh
