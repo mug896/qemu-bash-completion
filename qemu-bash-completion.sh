@@ -174,7 +174,8 @@ _qemu_system()
             if [[ $PREV_O == $PREO ]]; then
                 case $PREO in
                     -numa|-netdev|-tpmdev)
-                        _qemu_set_optv "$PREO" "@" ;;
+                        _qemu_set_optv "$PREO" "@"
+                        [[ $PREO == -netdev ]] && WORDS+=$'\nvde' ;;
                     -chardev)
                         WORDS=$( $CMD -chardev help | tail -n +2 ) ;;
                 esac
@@ -185,6 +186,7 @@ _qemu_system()
                         _qemu_set_optv "$PREO $opt" "$PREV"
                     else
                         _qemu_set_optv "$PREO $opt"
+                        [[ $opt == vde ]] && WORDS+=$'id=\nsock=\nport=\ngroup=\nmode='
                     fi
                 fi
             fi ;;
