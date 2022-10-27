@@ -25,6 +25,7 @@ _qemu_header()
             break
         fi
     done
+    [[ $PREO == $CUR_O ]] && PREO=""
 }
 
 _qemu_footer()
