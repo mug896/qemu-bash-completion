@@ -235,7 +235,7 @@ _qemu_system()
                 fi
             fi ;;
 
-        -smp|-add-fd|-m|-acpitable) 
+        -!(-*)m|-smp|-add-fd|-acpitable) 
             if [[ "=" != @($CUR_O|$PREV_O) ]]; then
                 if [[ $PREV_O == $PREO || ( -n $CUR_O && $CUR_O != ":" ) ]]; then
                     _qemu_set_optv "$PREO"
@@ -243,7 +243,7 @@ _qemu_system()
                 fi
             fi ;;
 
-        -k|-L|-usbdevice|-vga|-watchdog-action)
+        -!(-*)[kL]|-usbdevice|-vga|-watchdog-action)
             if [[ $PREV_O == -k ]]; then
                 WORDS=$'ar\nde-ch\nes\nfo\nfr-ca\nhu\nja\nmk\nno\npt-br\nsv\nda
                 en-gb\net\nfr\nfr-ch\nis\nlt\nnl\npl\nru\nth\nde\nen-us\nfi\nfr-be
@@ -486,7 +486,7 @@ _qemu_user()
             WORDS=$'enable=\nevents=\nfile='
         fi 
 
-    elif [[ $PREO == -d ]]; then
+    elif [[ $PREO == -!(-*)d ]]; then
         if [[ trace == @($PREV_O|${COMP_WORDS[COMP_CWORD-2]}) ]]; then
             WORDS=$( $CMD -d trace:help )
         else
@@ -505,25 +505,25 @@ _qemu_io()
     if [[ $CUR == -* ]]; then
         WORDS=$( $CMD --help | sed -En 's/^\s{,10}(-[[:alpha:]], -[^ =]+|-[^ =]+)(.).*/\1\2/; tX; b; :X s/,/\n/; p' )
 
-    elif [[ $PREV == @(-c|--cmd) ]]; then
+    elif [[ $PREV == @(-!(-*)c|--cmd) ]]; then
         ### WORDS=$( qemu-io -c help | sed -En '/^$/Q; s/^([[:alnum:]_-]+).*/\1/p' )
         WORDS=$'abort\naio_flush\naio_read\naio_write\nalloc\nbreak\nclose\ndiscard
         flush\nhelp\ninfo\nlength\nmap\nopen\nquit\nread\nreadv\nremove_break\nreopen
         resume\nsigraise\nsleep\ntruncate\nwait_break\nwrite\nwritev'
 
-    elif [[ $PREV == @(-f|--format) ]]; then
+    elif [[ $PREV == @(-!(-*)f|--format) ]]; then
         WORDS=$'file\nraw\nqcow2'
 
-    elif [[ $PREV == @(-i|--aio) ]]; then
+    elif [[ $PREV == @(-!(-*)i|--aio) ]]; then
         WORDS=$'threads\nnative\nio_uring'
 
-    elif [[ $PREV == @(-t|--cache) ]]; then
+    elif [[ $PREV == @(-!(-*)t|--cache) ]]; then
         WORDS=$'none\nwriteback\nunsafe\ndirectsync\nwritethrough'
 
-    elif [[ $PREV == @(-d|--discard) ]]; then
+    elif [[ $PREV == @(-!(-*)d|--discard) ]]; then
         WORDS=$'ignore\noff\nunmap\non'
 
-    elif [[ $PREO == @(-T|--trace) ]]; then
+    elif [[ $PREO == @(-!(-*)T|--trace) ]]; then
         if [[ $PREV == enable ]]; then
             WORDS=$( qemu-img --trace help )
         elif [[ $PREV_O == $PREO || "," == @($CUR_O|$PREV_O) ]]; then
@@ -543,19 +543,19 @@ _qemu_nbd()
     if [[ $CUR == -* ]]; then
         WORDS=$( $CMD --help | sed -En 's/^\s{,10}(-[[:alpha:]], -[^ =]+|-[^ =]+)(.).*/\1\2/; tX; b; :X s/,/\n/; p' )
 
-    elif [[ $PREV == @(-f|--format) ]]; then
+    elif [[ $PREV == @(-!(-*)f|--format) ]]; then
         WORDS=$'file\nraw\nqcow2'
 
-    elif [[ $PREV == @(-i|--aio) ]]; then
+    elif [[ $PREV == @(-!(-*)i|--aio) ]]; then
         WORDS=$'threads\nnative\nio_uring'
 
-    elif [[ $PREV == @(-t|--cache) ]]; then
+    elif [[ $PREV == @(-!(-*)t|--cache) ]]; then
         WORDS=$'none\nwriteback\nunsafe\ndirectsync\nwritethrough'
 
-    elif [[ $PREV == @(-d|--discard) ]]; then
+    elif [[ $PREV == @(-!(-*)d|--discard) ]]; then
         WORDS=$'ignore\noff\nunmap\non'
 
-    elif [[ $PREO == @(-T|--trace) ]]; then
+    elif [[ $PREO == @(-!(-*)T|--trace) ]]; then
         if [[ $PREV == enable ]]; then
             WORDS=$( qemu-img --trace help )
         elif [[ $PREV_O == $PREO || "," == @($CUR_O|$PREV_O) ]]; then
@@ -589,14 +589,14 @@ _qemu_img()
             WORDS=$( <<< $HELP sed -En 's/[][()|]/\n/g; s/^\s*(-[^ =]+)(.).*$/\1\2/Mg; s/^\s*[^-].*$//Mg; p' )
         fi
 
-    elif [[ $PREV_O == @(-f|-F) ]]; then
+    elif [[ $PREV_O == @(-!(-*)[fF]) ]]; then
         WORDS=$'file\nraw\nqcow2'
 
-    elif [[ $PREO == @(-T|--trace) && 
+    elif [[ $PREO == @(-!(-*)T|--trace) && 
         ( $PREO == $PREV_O || ( ${#ARR[@]} == 3 && -n $CUR_O )) ]]; then
         if [[ $PREV == enable ]]; then
             WORDS=$( qemu-img --trace help )
-        elif [[ $PREV_O == @(-T|--trace) || "," == @($CUR_O|$PREV_O) ]]; then
+        elif [[ $PREV_O == @(-!(-*)T|--trace) || "," == @($CUR_O|$PREV_O) ]]; then
             WORDS=$'enable=\nevents=\nfile='
         fi 
 
