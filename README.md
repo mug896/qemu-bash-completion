@@ -13,6 +13,8 @@ bash$ qemu-system-x86_64 -version
 QEMU emulator version 7.0.0 (Debian 1:7.0+dfsg-7ubuntu2)
 ```
 
+> please leave an issue above if you have any problems using this script.
+
 ## Installation
 
 Copy contents of qemu-bash-completion.sh to ~/.bash_completion  
