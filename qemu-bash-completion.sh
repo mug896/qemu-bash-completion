@@ -22,7 +22,7 @@ _qemu_header()
     for (( i = ${#arr[@]} - 1; i > 0; i-- )); do
         if [[ ${arr[i]} == -* ]]; then
             PREO=${arr[i]%%[^[:alnum:]_-]*}
-            [[ $PREO == $CUR_O ]] && PREO=""
+            [[ $PREO != @(${COMP_LINE2##*[ ]}|$CUR_O) ]] || PREO=""
             break
         fi
     done
