@@ -17,10 +17,11 @@ _qemu_header()
     PREV=${COMP_WORDS[COMP_CWORD-1]} PREV_O=$PREV
     [[ $PREV == "=" ]] && PREV=${COMP_WORDS[COMP_CWORD-2]}
     COMP_LINE2=${COMP_LINE:0:$COMP_POINT}
-    local i
-    for (( i = COMP_CWORD; i > 0; i-- )); do 
-        if [[ ${COMP_WORDS[i]} == -* && ${COMP_WORDS[i-1]} != [,=] ]]; then
-            PREO=${COMP_WORDS[i]}
+    local i arr
+    eval arr=( $COMP_LINE2 )
+    for (( i = ${#arr[@]} - 1; i > 0; i-- )); do
+        if [[ ${arr[i]} == -* ]]; then
+            PREO=${arr[i]%%[^[:alnum:]_-]*}
             break
         fi
     done
