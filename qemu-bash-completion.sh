@@ -486,7 +486,7 @@ _qemu_user()
             WORDS=$'enable=\nevents=\nfile='
         fi 
 
-    elif [[ $PREO == -!(-*)d* ]]; then
+    elif [[ $PREO == -!(-*)d ]]; then
         if [[ trace == @($PREV_O|${COMP_WORDS[COMP_CWORD-2]}) ]]; then
             WORDS=$( $CMD -d trace:help )
         else
@@ -505,25 +505,25 @@ _qemu_io()
     if [[ $CUR == -* ]]; then
         WORDS=$( $CMD --help | sed -En 's/^\s{,10}(-[[:alpha:]], -[^ =]+|-[^ =]+)(.).*/\1\2/; tX; b; :X s/,/\n/; p' )
 
-    elif [[ $PREV == @(-!(-*)c*|--cmd) ]]; then
+    elif [[ $PREV == @(-!(-*)c|--cmd) ]]; then
         ### WORDS=$( qemu-io -c help | sed -En '/^$/Q; s/^([[:alnum:]_-]+).*/\1/p' )
         WORDS=$'abort\naio_flush\naio_read\naio_write\nalloc\nbreak\nclose\ndiscard
         flush\nhelp\ninfo\nlength\nmap\nopen\nquit\nread\nreadv\nremove_break\nreopen
         resume\nsigraise\nsleep\ntruncate\nwait_break\nwrite\nwritev'
 
-    elif [[ $PREV == @(-!(-*)f*|--format) ]]; then
+    elif [[ $PREV == @(-!(-*)f|--format) ]]; then
         WORDS=$'file\nraw\nqcow2'
 
-    elif [[ $PREV == @(-!(-*)i*|--aio) ]]; then
+    elif [[ $PREV == @(-!(-*)i|--aio) ]]; then
         WORDS=$'threads\nnative\nio_uring'
 
-    elif [[ $PREV == @(-!(-*)t*|--cache) ]]; then
+    elif [[ $PREV == @(-!(-*)t|--cache) ]]; then
         WORDS=$'none\nwriteback\nunsafe\ndirectsync\nwritethrough'
 
-    elif [[ $PREV == @(-!(-*)d*|--discard) ]]; then
+    elif [[ $PREV == @(-!(-*)d|--discard) ]]; then
         WORDS=$'ignore\noff\nunmap\non'
 
-    elif [[ $PREO == @(-!(-*)T*|--trace) ]]; then
+    elif [[ $PREO == @(-!(-*)T|--trace) ]]; then
         if [[ $PREV == enable ]]; then
             WORDS=$( qemu-img --trace help )
         elif [[ $PREV_O == $PREO || "," == @($CUR_O|$PREV_O) ]]; then
@@ -543,7 +543,7 @@ _qemu_nbd()
     if [[ $CUR == -* ]]; then
         WORDS=$( $CMD --help | sed -En 's/^\s{,10}(-[[:alpha:]], -[^ =]+|-[^ =]+)(.).*/\1\2/; tX; b; :X s/,/\n/; p' )
 
-    elif [[ $PREV == @(-!(-*)f*|--format) ]]; then
+    elif [[ $PREV == @(-!(-*)f|--format) ]]; then
         WORDS=$'file\nraw\nqcow2'
 
     elif [[ $PREV == --aio ]]; then
@@ -555,7 +555,7 @@ _qemu_nbd()
     elif [[ $PREV == --discard ]]; then
         WORDS=$'ignore\noff\nunmap\non'
 
-    elif [[ $PREO == @(-!(-*)T*|--trace) ]]; then
+    elif [[ $PREO == @(-!(-*)T|--trace) ]]; then
         if [[ $PREV == enable ]]; then
             WORDS=$( qemu-img --trace help )
         elif [[ $PREV_O == $PREO || "," == @($CUR_O|$PREV_O) ]]; then
