@@ -589,14 +589,14 @@ _qemu_img()
             WORDS=$( <<< $HELP sed -En 's/[][()|]/\n/g; s/^\s*(-[^ =]+)(.).*$/\1\2/Mg; s/^\s*[^-].*$//Mg; p' )
         fi
 
-    elif [[ $PREV_O == -!(-*)[fF]* ]]; then
+    elif [[ $PREV_O == -!(-*)[fF] ]]; then
         WORDS=$'file\nraw\nqcow2'
 
-    elif [[ $PREO == @(-!(-*)T*|--trace) && 
+    elif [[ $PREO == @(-!(-*)T|--trace) && 
         ( $PREO == $PREV_O || ( ${#ARR[@]} == 3 && -n $CUR_O )) ]]; then
         if [[ $PREV == enable ]]; then
             WORDS=$( qemu-img --trace help )
-        elif [[ $PREV_O == @(-!(-*)T*|--trace) || "," == @($CUR_O|$PREV_O) ]]; then
+        elif [[ $PREV_O == @(-!(-*)T|--trace) || "," == @($CUR_O|$PREV_O) ]]; then
             WORDS=$'enable=\nevents=\nfile='
         fi 
 
