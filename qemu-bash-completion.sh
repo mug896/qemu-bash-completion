@@ -402,8 +402,8 @@ _qemu_system()
                     WORDS=$( $CMD -trace help )
                 else
                     _qemu_set_optv "$PREO" "$PREV"
-                    [[ $PREO == -mon && $PREV == pretty ]] && WORDS=$'\non\noff'
-                    [[ $PREO == -msg && $PREV == timestamp ]] && WORDS=$'\non\noff'
+                    [[ $PREO == -mon && $PREV == pretty ]] && WORDS=$'on\noff'
+                    [[ $PREO == -msg && $PREV == timestamp ]] && WORDS=$'on\noff'
                 fi
             elif [[ $PREV_O == $PREO || -n $CUR_O ]]; then
                 _qemu_set_optv "$PREO"
