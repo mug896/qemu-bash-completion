@@ -258,15 +258,17 @@ _qemu_system()
             fi ;;
 
         -audiodev)
-            if [[ $PREV_O == -audiodev || $PREV == driver ]]; then
+            if [[ $PREV_O == -audiodev ]]; then
                 _qemu_set_optv "-audiodev" "@"
                 WORDS+=$'\ndriver='
             elif [[ -n $CUR_O ]]; then
-                [[ $COMP_WORDBREAKS == *"."* ]] && COMP_WORDBREAKS=${COMP_WORDBREAKS//./}
-                local c_opts=$'id=\ntimer-period=\nin|out.mixing-engine=
-                in|out.fixed-settings=\nin|out.frequency=\nin|out.channels=
-                in|out.format=\nin|out.voices=\nin|out.buffer-length='
-                if [[ $COMP_LINE2 =~ .*" "-audiodev" "+(driver=)?([[:alnum:]_.-]+)"," ]]; then
+                if [[ $PREV == driver ]]; then
+                    _qemu_set_optv "-audiodev" "@"
+                elif [[ $COMP_LINE2 =~ .*" "-audiodev" "+(driver=)?([[:alnum:]_.-]+)"," ]]; then
+                    [[ $COMP_WORDBREAKS == *"."* ]] && COMP_WORDBREAKS=${COMP_WORDBREAKS//./}
+                    local c_opts=$'id=\ntimer-period=\nin|out.mixing-engine=
+                    in|out.fixed-settings=\nin|out.frequency=\nin|out.channels=
+                    in|out.format=\nin|out.voices=\nin|out.buffer-length='
                     local driver=${BASH_REMATCH[2]}
                     if [[ "=" == @($CUR_O|$PREV_O) ]]; then
                         _qemu_set_optv "-audiodev $driver" "$PREV"
