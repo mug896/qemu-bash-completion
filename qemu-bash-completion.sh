@@ -38,7 +38,7 @@ _qemu_footer()
             IFS=$'\n' COMPREPLY=($(compgen -W "$WORDS" -- "$CUR"))
         fi
     fi
-    [[ ${COMPREPLY: -1} == [=.] ]] && compopt -o nospace
+    [[ ${COMPREPLY: -1} == [=.,] ]] && compopt -o nospace
 }
 
 _qemu_set_words()
@@ -85,7 +85,7 @@ _qemu_set_optv()
         WORDS=${WORDS//default=/}
 
     elif [[ -n $arg1 && $arg2 == "@" ]]; then
-        WORDS=$( <<< $HELP sed -En -e '/^'"$arg1"'/{ :X s/^[^ ]+ ([[:alnum:]-]+)\[?[, ].*/\1/p; tR; :R s/^[^ ]+ \[?([[:alnum:]-]+(\|[[:alnum:]-]+)+)]?.*/\1/; tY; bZ; :Y s/\|/\n/gp; :Z $Q; n; /^-\w/{ /^'"$arg1"'/!Q; bX }}' )
+        WORDS=$( <<< $HELP sed -En -e '/^'"$arg1"'/{ :X s/^[^ ]+ ([[:alnum:]-]+)\[?[, ].*/\1,/p; tR; :R s/^[^ ]+ \[?([[:alnum:]-]+(\|[[:alnum:]-]+)+)]?.*/\1/; tY; bZ; :Y s/\|/\n/gp; :Z $Q; n; /^-\w/{ /^'"$arg1"'/!Q; bX }}' )
 
     elif [[ -n $arg1 && -n $arg2 ]]; then
         help=$( <<< $HELP sed -En -e '/^'"$arg1"'/{ :X H; $bZ; n; /^-\w/{ /^'"$arg1"'/bX; bZ}; /^$/bZ; bX }; b' -e ':Z g; p; Q' )
@@ -142,7 +142,7 @@ _qemu_system()
     else
     case $PREO in
         -machine)
-            local machine_h=$( $CMD -machine help | sed -En '1d; s/^([^ ]+).*/\1/; p' )
+            local machine_h=$( $CMD -machine help | sed -En '1d; s/^([^ ]+).*/\1,/; p' )
             if [[ $PREV_O == -machine ]]; then
                 WORDS=$'type=\n'$machine_h
             elif [[ "," == @($CUR_O|$PREV_O) ]]; then
@@ -160,7 +160,7 @@ _qemu_system()
         -cpu) [[ $PREV_O == -cpu ]] && _qemu_set_words "-cpu" ;;
 
         -accel)
-            local accel_h=$( $CMD -accel help | sed -En '1d; s/^([^ ]+).*/\1/; p' )
+            local accel_h=$( $CMD -accel help | sed -En '1d; s/^([^ ]+).*/\1,/; p' )
             if [[ $PREV_O == -accel ]]; then
                 WORDS=$'accel=\n'$accel_h
             elif [[ "," == @($CUR_O|$PREV_O) ]]; then
@@ -180,7 +180,7 @@ _qemu_system()
                     -numa|-tpmdev)
                         _qemu_set_optv "$PREO" "@" ;;
                     -chardev)
-                        WORDS=$( $CMD -chardev help | tail -n +2 ) ;;
+                        WORDS=$( $CMD -chardev help | sed -En '1d; s/\s*([^ ]+).*/\1,/p' )
                 esac
             elif [[ -n $CUR_O ]]; then
                 if [[ $COMP_LINE2 =~ .*" "$PREO" "+([[:alnum:]_.-]+)"," ]]; then
@@ -196,9 +196,9 @@ _qemu_system()
         -netdev|-net|-nic)
             if [[ $PREV_O == $PREO ]]; then
                 _qemu_set_optv -netdev "@"
-                WORDS+=$'\nvde'
-                [[ $PREO == -nic ]] && WORDS+=$'\nnetmap\nnone'
-                [[ $PREO == -net ]] && WORDS+=$'\nnic'
+                WORDS+=$'\nvde,'
+                [[ $PREO == -nic ]] && WORDS+=$'\nnetmap,\nnone'
+                [[ $PREO == -net ]] && WORDS+=$'\nnic,'
             elif [[ -n $CUR_O ]]; then
                 if [[ $COMP_LINE2 =~ .*" "$PREO" "+([[:alnum:]_.-]+)"," ]]; then
                     local opt=${BASH_REMATCH[1]}
@@ -258,15 +258,16 @@ _qemu_system()
             fi ;;
 
         -audiodev)
-            if [[ $PREV_O == -audiodev ]]; then
+            if [[ $PREV_O == -audiodev || $PREV == driver ]]; then
                 _qemu_set_optv "-audiodev" "@"
+                WORDS+=$'\ndriver='
             elif [[ -n $CUR_O ]]; then
                 [[ $COMP_WORDBREAKS == *"."* ]] && COMP_WORDBREAKS=${COMP_WORDBREAKS//./}
                 local c_opts=$'id=\ntimer-period=\nin|out.mixing-engine=
                 in|out.fixed-settings=\nin|out.frequency=\nin|out.channels=
                 in|out.format=\nin|out.voices=\nin|out.buffer-length='
-                if [[ $COMP_LINE2 =~ .*" "-audiodev" "+([[:alnum:]_.-]+)"," ]]; then
-                    local driver=${BASH_REMATCH[1]}
+                if [[ $COMP_LINE2 =~ .*" "-audiodev" "+(driver=)?([[:alnum:]_.-]+)"," ]]; then
+                    local driver=${BASH_REMATCH[2]}
                     if [[ "=" == @($CUR_O|$PREV_O) ]]; then
                         _qemu_set_optv "-audiodev $driver" "$PREV"
                     else
@@ -289,7 +290,7 @@ _qemu_system()
         -device)
             local driver property
             if [[ $PREV_O == -device ]]; then
-                WORDS=$( $CMD -device help | sed -En 's/^name "([^"]+)".*/\1/p' )
+                WORDS=$( $CMD -device help | sed -En 's/^name "([^"]+)".*/\1,/p' )
             else
                 [[ $COMP_LINE2 =~ .*" "-device" "+([[:alnum:]_.-]+)"," ]]
                 driver=${BASH_REMATCH[1]}
@@ -303,7 +304,7 @@ _qemu_system()
         -blockdev)
             [[ $COMP_WORDBREAKS == *"."* ]] && COMP_WORDBREAKS=${COMP_WORDBREAKS//./}
             if [[ $PREV_O == -blockdev ]]; then
-                WORDS=$'file\nraw\nqcow2\ndriver='
+                WORDS=$'file,\nraw,\nqcow2,\ndriver='
             elif [[ "," == @($CUR_O|$PREV_O) ]]; then
                 [[ $COMP_LINE2 =~ .*" "-blockdev" "+(driver=)?([[:alnum:]_.-]+)"," ]]
                 local driver=${BASH_REMATCH[2]}
@@ -344,7 +345,8 @@ _qemu_system()
             [[ $COMP_WORDBREAKS == *"."* ]] && COMP_WORDBREAKS=${COMP_WORDBREAKS//./}
             if [[ $PREV_O == $PREO ]]; then
                 if [[ $PREO == -display ]]; then
-                    WORDS=$( $CMD -display help 2> /dev/null | sed -En '1d; s/^([^ ]+).*/\1/p' )
+                    WORDS=$( $CMD -display help 2> /dev/null | sed -En '1d; s/^([^ ]+).*/\1,/p' )
+                    WORDS=${WORDS/none,/none}
                 else
                     _qemu_set_optv "$PREO" "@"
                 fi
@@ -380,8 +382,8 @@ _qemu_system()
 
         -smbios)
             if [[ $PREV_O == -smbios ]]; then
-                WORDS=$'file=\ntype=0\ntype=1\ntype=2\ntype=3\ntype=4\ntype=11
-                type=17\ntype=41'
+                WORDS=$'file=\ntype=0,\ntype=1,\ntype=2,\ntype=3,\ntype=4,\ntype=11,
+                type=17,\ntype=41,'
             elif [[ -n $CUR_O ]]; then
                 if [[ $COMP_LINE2 =~ .*" "-smbios" "+(type=[0-9]+)"," ]]; then
                     local opt=${BASH_REMATCH[1]}
@@ -441,7 +443,7 @@ _qemu_system()
 
         -sandbox)
             if [[ $PREV_O == -sandbox ]]; then
-                WORDS=$'on\noff'
+                WORDS=$'on,'
             elif [[ "," == @($CUR_O|$PREV_O) ]]; then
                 _qemu_set_optv "-sandbox"
             elif [[ -n $CUR_O ]]; then
