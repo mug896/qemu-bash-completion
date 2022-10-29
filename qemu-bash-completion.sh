@@ -38,7 +38,7 @@ _qemu_footer()
             IFS=$'\n' COMPREPLY=($(compgen -W "$WORDS" -- "$CUR"))
         fi
     fi
-    [[ ${COMPREPLY: -1} == "=" ]] && compopt -o nospace
+    [[ ${COMPREPLY: -1} == [=.] ]] && compopt -o nospace
 }
 
 _qemu_set_words()
@@ -99,7 +99,7 @@ _qemu_global()
     [[ $COMP_WORDBREAKS != *"."* ]] && COMP_WORDBREAKS+="."
     local driver property
     if [[ $PREV_O == -global || $PREV == driver ]]; then
-        WORDS=$( $CMD -device help | sed -En 's/^name "([^"]+)".*/\1/p' )
+        WORDS=$( $CMD -device help | sed -En 's/^name "([^"]+)".*/\1./p' )
         [[ $PREV != driver ]] && WORDS+=$'\ndriver=\nproperty=\nvalue='
         return
     fi
