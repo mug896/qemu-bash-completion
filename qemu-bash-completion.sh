@@ -265,7 +265,7 @@ _qemu_system()
                 if [[ $PREV == driver ]]; then
                     _qemu_set_optv "-audiodev" "@"
                 elif [[ $COMP_LINE2 =~ .*" "-audiodev" "+(driver=)?([[:alnum:]_.-]+)"," ]]; then
-                    [[ $COMP_WORDBREAKS == *"."* ]] && COMP_WORDBREAKS=${COMP_WORDBREAKS//./}
+                    COMP_WORDBREAKS=${COMP_WORDBREAKS//./}
                     local c_opts=$'id=\ntimer-period=\nin|out.mixing-engine=
                     in|out.fixed-settings=\nin|out.frequency=\nin|out.channels=
                     in|out.format=\nin|out.voices=\nin|out.buffer-length='
@@ -304,7 +304,7 @@ _qemu_system()
             fi ;;
 
         -blockdev)
-            [[ $COMP_WORDBREAKS == *"."* ]] && COMP_WORDBREAKS=${COMP_WORDBREAKS//./}
+            COMP_WORDBREAKS=${COMP_WORDBREAKS//./}
             if [[ $PREV_O == -blockdev ]]; then
                 WORDS=$'file,\nraw,\nqcow2,\ndriver='
             elif [[ "," == @($CUR_O|$PREV_O) ]]; then
@@ -344,7 +344,7 @@ _qemu_system()
             fi ;;
 
         -fsdev|-virtfs|-display)
-            [[ $COMP_WORDBREAKS == *"."* ]] && COMP_WORDBREAKS=${COMP_WORDBREAKS//./}
+            COMP_WORDBREAKS=${COMP_WORDBREAKS//./}
             if [[ $PREV_O == $PREO ]]; then
                 if [[ $PREO == -display ]]; then
                     WORDS=$( $CMD -display help 2> /dev/null | sed -En '1d; s/^([^ ]+).*/\1,/p' )
