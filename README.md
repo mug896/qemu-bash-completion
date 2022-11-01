@@ -39,12 +39,12 @@ Display all 121 possibilities? (y or n)
 ```
 
 The `-global` option can be used in two ways.
-if a value can contain `.` like `zoned.zasl=` then you have to use the second method.
+if a value contain `.` like `zoned.zasl` then you have to use the second method.
 
 ```sh
--global ide-hd.physical_block_size=4096
+1) -global ide-hd.physical_block_size=4096
 
--global driver=ide-hd,property=physical_block_size,value=4096
+2) -global driver=ide-hd,property=physical_block_size,value=4096
 ```
 
 
