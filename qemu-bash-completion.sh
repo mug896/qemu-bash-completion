@@ -246,11 +246,11 @@ _qemu_system()
             fi ;;
 
         -!(-*)[kL]|-usbdevice|-vga|-watchdog-action)
-            if [[ $PREV_O == -k ]]; then
+            if [[ $PREV_O == -!(-*)k ]]; then
                 WORDS=$'ar\nde-ch\nes\nfo\nfr-ca\nhu\nja\nmk\nno\npt-br\nsv\nda
                 en-gb\net\nfr\nfr-ch\nis\nlt\nnl\npl\nru\nth\nde\nen-us\nfi\nfr-be
                 hr\nit\nlv\nnl-be\npt\nsl\ntr'
-            elif [[ $PREV_O == -L ]]; then
+            elif [[ $PREV_O == -!(-*)L ]]; then
                 WORDS=$( $CMD -L help )
             elif [[ $PREV_O == -usbdevice ]]; then
                 WORDS=$'braille\nkeyboard\nmouse\ntablet\nwacom-tablet\ndisk:\nhost:\nserial:\nnet'
