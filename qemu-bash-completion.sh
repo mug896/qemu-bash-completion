@@ -97,9 +97,10 @@ _qemu_set_optv()
 _qemu_global()
 {
     [[ $COMP_WORDBREAKS != *"."* ]] && COMP_WORDBREAKS+="."
-    local driver property
+    local driver property dot="."
     if [[ $PREV_O == -global || $PREV == driver ]]; then
-        WORDS=$( $CMD -device help | sed -En 's/^name "([^"]+)".*/\1./p' )
+        [[ $PREV == driver ]] && dot=""
+        WORDS=$( $CMD -device help | sed -En 's/^name "([^"]+)".*/\1'$dot'/p' )
         [[ $PREV != driver ]] && WORDS+=$'\ndriver=\nproperty=\nvalue='
         return
     fi
