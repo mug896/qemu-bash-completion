@@ -32,7 +32,7 @@ _qemu_footer()
 {
     if [[ -z $COMPREPLY ]]; then
         WORDS=$( <<< $WORDS sed -E 's/^[[:blank:]]+|[[:blank:]]+$//g' )
-        if [[ $WORDS == *[[:graph:]][\ ][[:graph:]]* ]]; then
+        if [[ $WORDS == *" "* ]]; then
             IFS=$'\n' COMPREPLY=($(compgen -P \' -S \' -W "$WORDS" -- "$CUR"))
         else
             IFS=$'\n' COMPREPLY=($(compgen -W "$WORDS" -- "$CUR"))
