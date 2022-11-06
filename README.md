@@ -38,7 +38,7 @@ Display all 121 possibilities? (y or n)
 ```
 
 The `-global` option can be used in two ways.
-if a value contain `.` like `zoned.zasl` then you have to use the second method.
+if a value contain `.` char like `zoned.zasl` then you have to use the second method.
 
 ```sh
 1) -global ide-hd.physical_block_size=4096
