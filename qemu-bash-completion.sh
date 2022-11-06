@@ -18,7 +18,7 @@ _qemu_header()
     [[ $PREV == "=" ]] && PREV=${COMP_WORDS[COMP_CWORD-2]}
     COMP_LINE2=${COMP_LINE:0:$COMP_POINT}
     local i arr
-    eval arr=( $COMP_LINE2 )
+    eval arr=( $COMP_LINE2 ) 2> /dev/null
     for (( i = ${#arr[@]} - 1; i > 0; i-- )); do
         if [[ ${arr[i]} == -* ]]; then
             PREO=${arr[i]%%[^[:alnum:]_-]*}
@@ -577,7 +577,7 @@ _qemu_img()
     local IFS=$' \t\n' CUR CUR_O PREV PREV_O PREO CMD=$1 CMD2 WORDS HELP COMP_LINE2
     _qemu_header
     [[ $COMP_WORDBREAKS != *","* ]] && COMP_WORDBREAKS+=","
-    eval local ARR=( $COMP_LINE2 )
+    eval local ARR=( $COMP_LINE2 ) 2> /dev/null
     case ${COMP_WORDS[1]} in
         -T|--trace) 
             [[ ${#ARR[@]} -gt 3 && $CUR != ${ARR[3]} ]] && CMD2=${ARR[3]} ;;
