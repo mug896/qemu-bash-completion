@@ -13,7 +13,6 @@ bash$ qemu-system-x86_64 -version
 QEMU emulator version 7.0.0 (Debian 1:7.0+dfsg-7ubuntu2)
 ```
 
-> please leave an issue above if you have any problems using this script.
 
 ## Installation
 
@@ -47,4 +46,5 @@ if a value contain `.` like `zoned.zasl` then you have to use the second method.
 2) -global driver=ide-hd,property=physical_block_size,value=4096
 ```
 
+> please leave an issue above if you have any problems using this script.
 
