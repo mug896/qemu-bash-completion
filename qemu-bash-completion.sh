@@ -30,7 +30,7 @@ _qemu_header()
 
 _qemu_footer()
 {
-    if ! declare -p COMPREPLY > /dev/null; then
+    if ! declare -p COMPREPLY &> /dev/null; then
         WORDS=$( <<< $WORDS sed -E 's/^[[:blank:]]+|[[:blank:]]+$//g' )
         if [[ $WORDS == *" "* ]]; then
             IFS=$'\n' COMPREPLY=($(compgen -P \' -S \' -W "$WORDS" -- "$CUR"))
