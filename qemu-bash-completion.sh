@@ -113,7 +113,7 @@ _qemu_global()
             WORDS=$( $CMD -device "$driver",help | sed -En '/^\s*'"$PREV"'=/{s#.* ([[:alnum:]_.-]+(/[[:alnum:]_.-]+)+).*#\1#; tX; b; :X s#/#\n#g; p }' )
         fi
     else
-        [[ $COMP_WORDBREAKS == *"."* ]] && COMP_WORDBREAKS=${COMP_WORDBREAKS//./}
+        COMP_WORDBREAKS=${COMP_WORDBREAKS//./}
         if [[ "," == @($CUR_O|$PREV_O) ]]; then 
             WORDS=$'\ndriver=\nproperty=\nvalue='
             return
