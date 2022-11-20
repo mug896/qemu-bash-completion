@@ -63,14 +63,14 @@ _qemu_set_words()
                 if (c == 3) { 
                     while (getline) { 
                         if (match($0, "^[ ]{" r-1 "}-object")) { 
-                            addres(); 
+                            add_res(); 
                             while (getline) { 
                                 if (match($0, "^[ ]{" r-1 "}[[:graph:]]")) 
-                                    addres();
+                                    add_res();
                                 else 
                                     break 
                 }}}}} END { print gensub(/\xe2\x80\x90\n[ ]*/,"","g",res) }; 
-                function addres() { res = res "\n" gensub(/^[ ]+-object[ ]+/,"-object ","g") }' )
+                function add_res() { res = res "\n" gensub(/^[ ]+-object[ ]+/,"-object ","g") }' )
             _qemu_object_help=$HELP
     esac
 }
