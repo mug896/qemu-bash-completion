@@ -14,7 +14,7 @@ _qemu_header()
 {
     CUR=${COMP_WORDS[COMP_CWORD]} CUR_O=$CUR
     COMP_LINE2=${COMP_LINE:0:$COMP_POINT}
-    [[ ${COMP_LINE2: -1} = " " || $COMP_WORDBREAKS == *$CUR* ]] && CUR=""
+    [[ ${COMP_LINE2: -1} = " " || $COMP_WORDBREAKS == *"$CUR"* ]] && CUR=""
     PREV=${COMP_WORDS[COMP_CWORD-1]} PREV_O=$PREV
     [[ $PREV == "=" ]] && PREV=${COMP_WORDS[COMP_CWORD-2]}
     local i arr
