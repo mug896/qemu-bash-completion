@@ -47,5 +47,5 @@ if a value contain `.` char like `zoned.zasl` then you have to use the second me
 2) -global driver=ide-hd,property=physical_block_size,value=4096
 ```
 
-> please leave an issue above if you have any problems using this script.
+> please leave an issue above if you have problems using this script.
 
