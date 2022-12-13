@@ -1,7 +1,8 @@
 ## QEMU Bash Completion
 
-This is bash completion functions for `qemu-system*` , `qemu-user*` ,
+This is a bash completion function for `qemu-system*` , `qemu-user*` ,
 `qemu-utils*` commands.
+It's based on the help message output of command.
 
 ```sh
 bash$ hostnamectl
