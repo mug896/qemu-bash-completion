@@ -2,7 +2,7 @@
 
 This is a bash completion function for `qemu-system*` , `qemu-user*` ,
 `qemu-utils*` commands.
-It's based on the help message output of command.
+It's based on the help message output of the command.
 
 ```sh
 bash$ hostnamectl
